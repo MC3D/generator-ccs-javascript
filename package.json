@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A Yeoman generator for CCS students",
   "files": [
-    "app"
+    "generators"
   ],
   "main": "index.js",
   "scripts": {
