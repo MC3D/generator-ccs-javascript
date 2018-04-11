@@ -2,6 +2,9 @@
   "name": "generator-ccs-javascript",
   "version": "1.0.0",
   "description": "A Yeoman generator for CCS students",
+  "files": [
+    "app"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,5 +14,8 @@
     "carolina-code-school"
   ],
   "author": "Mady Chapman",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "yeoman-generator": "^2.0.3"
+  }
 }
