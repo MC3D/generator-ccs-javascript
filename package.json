@@ -13,6 +13,7 @@
     "yeoman-generator",
     "carolina-code-school"
   ],
+  "repository": "ccs-instructor-resources/generator-ccs-javascript",
   "author": "Mady Chapman",
   "license": "MIT",
   "dependencies": {

@@ -1,0 +1,84 @@
+{
+  "name": "",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": <%- "\"" + username + "\"" %>,
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "devDependencies": {
+    "git-directory-deploy": "^1.4.0",
+    "autoprefixer": "^6.3.3",
+    "babel-preset-env": "^1.6.1",
+    "babelify": "^7.3.0",
+    "browserify-shim": "^3.8.12",
+    "postcss-cli": "^2.5.1",
+    "eslint": "^2.2.0",
+    "uglify-js": "^2.6.1",
+    "parallelshell": "^2.0.0",
+    "imagemin-cli": "^2.1.0",
+    "browserify": "^14.4.0",
+    "watchify": "^3.7.0",
+    "strictify": "^0.2.0",
+    "live-server": "^0.9.2",
+    "onchange": "^2.0.0",
+    "jquery": "^3.3.1"
+    <% if (includeBootstrap) { %>,
+    "popper.js": "^1.14.3",
+    "bootstrap": "^4.1.0"
+    <% } %>
+    <% if (includeHandlebars) { %>,
+    "handlebars": "^4.0.11",
+    "hbsfy": "^2.5.1"
+    <% } %>
+    <% if (includeUnderscore) { %>,
+    "underscore": "^1.8.3"
+    <% } %>
+  },
+  "scripts": {
+    "html": "cp app/*.html dist/",
+    "scss": "sass --style compressed --update app/styles:dist/css",
+    "images": "imagemin app/images dist/images -p",
+    "autoprefixer": "postcss -u autoprefixer -r dist/css/*.css",
+
+    "lint": "eslint app/scripts",
+    "browserify": "browserify app/scripts/index.js -o | uglifyjs -c > dist/js/bundle.js",
+
+    "build:css": "npm run scss && npm run autoprefixer",
+    "build:js": "npm run lint && npm run browserify",
+    "build": "npm run html && npm run images && npm run build:css && npm run build:js && npm run build:images",
+
+    "deploy": "npm run build && git-directory-deploy --directory dist/",
+
+    "watch:html": "onchange 'app/**/*.html' -- npm run html",
+    "watch:scss": "sass --watch app/styles:dist/css",
+    "watch:images": "onchange 'app/images/*' -- npm run images",
+    "watch:js": "watchify app/scripts/index.js -o dist/js/bundle.js",
+    "server": "live-server --open='dist'",
+    "watch": "parallelshell 'npm run watch:html' 'npm run watch:scss' 'npm run watch:images' 'npm run watch:js' 'npm run server'"
+  },
+  "browserify": {
+    "transform": [
+      ["babelify", {
+        "presets": ["env"]
+      }],
+      "browserify-shim",
+      <% if(includeHandlebars) { %>
+      "hbsfy", <% } %>
+      "strictify"
+    ]
+  },
+  "browserify-shim": {
+    "jQuery": "$",
+    "underscore": "_"
+  },
+  "strictify": {
+    "exclude": ["handlebars", "hbs", "json"]
+  }
+}
